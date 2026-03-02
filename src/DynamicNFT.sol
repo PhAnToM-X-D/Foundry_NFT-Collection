@@ -14,10 +14,10 @@ contract DynamicNFT is ERC721 {
 
     uint256 public tokenCounter;
 
-    mapping(uint256 => string) tokenURI;
-    mapping(uint256 => Mood) mood;
-    mapping(uint256 => address) tokenIdToOwner;
-    mapping(address => uint256[]) ownerToTokenIDs;
+    mapping(uint256 => string) private tokenURI;
+    mapping(uint256 => Mood) private mood;
+    mapping(uint256 => address) private tokenIdToOwner;
+    mapping(address => uint256[]) private ownerToTokenIDs;
 
     string HAPPYIMGURI;
     string SADIMGURI;
@@ -44,7 +44,7 @@ contract DynamicNFT is ERC721 {
         _;
     }
 
-    function _tokenURI(uint256 _tokenId) public view returns (string memory) {
+    function _tokenURIGenerationForTokenID(uint256 _tokenId) public view returns (string memory) {
         string memory imageURI;
         if (mood[_tokenId] == Mood.HAPPY) {
             imageURI = HAPPYIMGURI;
@@ -72,7 +72,7 @@ contract DynamicNFT is ERC721 {
         );
     }
 
-    function changeMood(uint256 tokenId) public onlyOwner(tokenId) {
+    function changeMoodOfNFT(uint256 tokenId) public onlyOwner(tokenId) {
         if (mood[tokenId] == Mood.HAPPY) {
             mood[tokenId] = Mood.SAD;
             tokenURI[tokenId] = SADIMGURI;
@@ -84,5 +84,21 @@ contract DynamicNFT is ERC721 {
 
     function _getImageURIFromBaseEncode(string memory _base64ImageURI) private view returns (string memory) {
         string memory FinalURI = string(abi.encodePacked("data:image/svg+xml;base64,", _base64ImageURI));
+    }
+
+    function getOwnerByTokenId(uint256 _tokenID) public view returns (address) {
+        return tokenIdToOwner[_tokenID];
+    }
+
+    function getTokenIDsOwnedByAddress(address _owner) public view returns (uint256[] memory) {
+        return ownerToTokenIDs[_owner];
+    }
+
+    function getTokenURIfromTokenID(uint256 _tokenID) public view returns (string memory) {
+        return tokenURI[_tokenID];
+    }
+
+    function getTotalNFTsInCirculationCount () public pure returns (uint256) {
+        return tokenCounter;
     }
 }
