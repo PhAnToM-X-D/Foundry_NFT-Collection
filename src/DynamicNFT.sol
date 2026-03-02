@@ -71,6 +71,28 @@ contract DynamicNFT is ERC721 {
             ));
     }
 
+    function _tokenURIGenerationForURI(string memory _imguri) public view returns (string memory) {
+        string memory imageURI = _imguri;
+        return (string(
+                abi.encodePacked(
+                    "data:image/svg+xml;base64,",
+                    string(
+                        Base64.encode(
+                            bytes(
+                                abi.encodePacked(
+                                    '{"name:"',
+                                    name(),
+                                    '", description: "A basic NFT reflecting the mood of the owner" , imageURI: "',
+                                    imageURI,
+                                    '", attributes: [{trait_type: "moodiness", value:"100"}]'
+                                )
+                            )
+                        )
+                    )
+                )
+            ));
+    }
+
     function changeMoodOfNFT(uint256 tokenId) public onlyOwner(tokenId) {
         if (mood[tokenId] == Mood.HAPPY) {
             mood[tokenId] = Mood.SAD;
@@ -100,5 +122,17 @@ contract DynamicNFT is ERC721 {
 
     function getTotalNFTsInCirculationCount() public view returns (uint256) {
         return tokenCounter;
+    }
+
+    function getMood(uint256 _tokenID) public view returns (string memory) {
+        if (mood[_tokenID] == Mood.HAPPY) {
+            return "HAPPY";
+        } else {
+            return "SAD";
+        }
+    }
+
+    function SADIMGURI1() public view returns (string memory) {
+        return _tokenURIGenerationForURI(SADIMGURI);
     }
 }

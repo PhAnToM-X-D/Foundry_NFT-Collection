@@ -11,8 +11,7 @@ contract testIITRNFT is Test {
     DeployNFT deployer;
     address public user = makeAddr("user");
 
-
-    function setUp () external {
+    function setUp() external {
         deployer = new DeployNFT();
         iitrNFT = deployer.run();
     }
