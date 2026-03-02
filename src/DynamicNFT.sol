@@ -68,8 +68,7 @@ contract DynamicNFT is ERC721 {
                         )
                     )
                 )
-            )
-        );
+            ));
     }
 
     function changeMoodOfNFT(uint256 tokenId) public onlyOwner(tokenId) {
@@ -98,7 +97,7 @@ contract DynamicNFT is ERC721 {
         return tokenURI[_tokenID];
     }
 
-    function getTotalNFTsInCirculationCount () public pure returns (uint256) {
+    function getTotalNFTsInCirculationCount() public pure returns (uint256) {
         return tokenCounter;
     }
 }
