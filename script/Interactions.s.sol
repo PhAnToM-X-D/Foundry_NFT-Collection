@@ -1,9 +1,9 @@
 // SPDX-License-Identifier: MIT
 pragma solidity ^0.8.0;
 
-import {Script} from "forge-std/Script.sol";
+import {Script} from "lib/forge-std/src/Script.sol";
 import {DevOpsTools} from "lib/foundry-devops/src/DevOpsTools.sol";
-import {IITR_NFT} from "../src/IITR_NFT.sol";
+import {IITR_NFT} from "src/IITR_NFT.sol";
 
 contract InteractNFT is Script {
     IITR_NFT nft;

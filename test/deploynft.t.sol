@@ -1,8 +1,8 @@
 // SPDX-License-Identifier: MIT
 pragma solidity ^0.8.0;
 
-import {DynamicNFT} from "../src/DynamicNFT.sol";
-import {Deploy_DynamicNFT} from "../script/deploy_DynamicNFT.s.sol";
+import {DynamicNFT} from "src/DynamicNFT.sol";
+import {Deploy_DynamicNFT} from "script/deploy_DynamicNFT.s.sol";
 import {Test} from "forge-std/Test.sol";
 import {console} from "forge-std/console.sol";
 

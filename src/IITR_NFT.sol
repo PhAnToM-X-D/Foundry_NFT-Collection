@@ -1,7 +1,7 @@
 // SPDX-License-Identifier: MIT
 pragma solidity ^0.8.0;
 
-import "@openzeppelin/contracts/token/ERC721/ERC721.sol";
+import "lib/openzeppelin-contracts/contracts/token/ERC721/ERC721.sol";
 
 contract IITR_NFT is ERC721 {
     uint256 public s_tokenCounter;

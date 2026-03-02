@@ -2,7 +2,7 @@
 pragma solidity ^0.8.0;
 
 import {Script} from "forge-std/Script.sol";
-import {DynamicNFT} from "../src/DynamicNFT.sol";
+import {DynamicNFT} from "src/DynamicNFT.sol";
 import {Base64} from "lib/openzeppelin-contracts/contracts/utils/base64.sol";
 
 contract Deploy_DynamicNFT is Script {

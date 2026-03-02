@@ -1,8 +1,8 @@
 // SPDX-License-Identifier: MIT
 pragma solidity ^0.8.0;
 
-import {IITR_NFT} from "../src/IITR_NFT.sol";
-import {DeployNFT} from "../script/deploy_IITR_NFT.s.sol";
+import {IITR_NFT} from "src/IITR_NFT.sol";
+import {DeployNFT} from "script/deploy_IITR_NFT.s.sol";
 import {Test} from "forge-std/Test.sol";
 import {console} from "forge-std/console.sol";
 
