@@ -5,6 +5,8 @@ import {ERC721} from "@openzeppelin/contracts/token/ERC721/ERC721.sol";
 import {Base64} from "@openzeppelin/contracts/utils/Base64.sol";
 
 contract DynamicNFT is ERC721 {
+    error msgSenderNotOwner();
+
     enum Mood {
         HAPPY,
         SAD
@@ -14,6 +16,7 @@ contract DynamicNFT is ERC721 {
 
     mapping(uint256 => string) tokenURI;
     mapping(uint256 => Mood) mood;
+    mapping(uint256 => address) tokenIdToOwner;
 
     string HAPPYIMGURI;
     string SADIMGURI;
@@ -29,6 +32,13 @@ contract DynamicNFT is ERC721 {
         tokenURI[tokenCounter] = HAPPYIMGURI;
         mood[tokenCounter] = Mood.HAPPY;
         tokenCounter++;
+    }
+
+    modifier onlyOwner(uint256 tokenId) {
+        if (msg.sender != tokenIdToOwner[tokenId]) {
+            revert msgSenderNotOwner();
+        }
+        _;
     }
 
     function _tokenURI(uint256 _tokenId) public view returns (string memory) {
@@ -58,7 +68,7 @@ contract DynamicNFT is ERC721 {
             ));
     }
 
-    function changeMood(uint256 tokenId) public {
+    function changeMood(uint256 tokenId) public onlyOwner(tokenId) {
         if (mood[tokenId] == Mood.HAPPY) {
             mood[tokenId] = Mood.SAD;
             tokenURI[tokenId] = SADIMGURI;
