@@ -68,7 +68,8 @@ contract DynamicNFT is ERC721 {
                         )
                     )
                 )
-            ));
+            )
+        );
     }
 
     function changeMood(uint256 tokenId) public onlyOwner(tokenId) {
