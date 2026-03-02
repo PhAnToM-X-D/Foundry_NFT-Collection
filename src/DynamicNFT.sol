@@ -14,7 +14,7 @@ contract DynamicNFT is ERC721 {
 
     uint256 public tokenCounter;
 
-    mapping(uint256 => string) private tokenURI;
+    mapping(uint256 => string) private s_tokenURI;
     mapping(uint256 => Mood) private mood;
     mapping(uint256 => address) private tokenIdToOwner;
     mapping(address => uint256[]) private ownerToTokenIDs;
@@ -30,7 +30,7 @@ contract DynamicNFT is ERC721 {
 
     function mintNFT() public {
         _safeMint(msg.sender, tokenCounter);
-        tokenURI[tokenCounter] = HAPPYIMGURI;
+        s_tokenURI[tokenCounter] = HAPPYIMGURI;
         mood[tokenCounter] = Mood.HAPPY;
         tokenIdToOwner[tokenCounter] = msg.sender;
         ownerToTokenIDs[msg.sender].push(tokenCounter);
@@ -74,15 +74,16 @@ contract DynamicNFT is ERC721 {
     function changeMoodOfNFT(uint256 tokenId) public onlyOwner(tokenId) {
         if (mood[tokenId] == Mood.HAPPY) {
             mood[tokenId] = Mood.SAD;
-            tokenURI[tokenId] = SADIMGURI;
+            s_tokenURI[tokenId] = SADIMGURI;
         } else {
             mood[tokenId] = Mood.HAPPY;
-            tokenURI[tokenId] = HAPPYIMGURI;
+            s_tokenURI[tokenId] = HAPPYIMGURI;
         }
     }
 
-    function _getImageURIFromBaseEncode(string memory _base64ImageURI) private view returns (string memory) {
+    function _getImageURIFromBaseEncode(string memory _base64ImageURI) private pure returns (string memory) {
         string memory FinalURI = string(abi.encodePacked("data:image/svg+xml;base64,", _base64ImageURI));
+        return FinalURI;
     }
 
     function getOwnerByTokenId(uint256 _tokenID) public view returns (address) {
@@ -94,10 +95,10 @@ contract DynamicNFT is ERC721 {
     }
 
     function getTokenURIfromTokenID(uint256 _tokenID) public view returns (string memory) {
-        return tokenURI[_tokenID];
+        return s_tokenURI[_tokenID];
     }
 
-    function getTotalNFTsInCirculationCount() public pure returns (uint256) {
+    function getTotalNFTsInCirculationCount() public view returns (uint256) {
         return tokenCounter;
     }
 }
