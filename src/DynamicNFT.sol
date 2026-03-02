@@ -17,13 +17,14 @@ contract DynamicNFT is ERC721 {
     mapping(uint256 => string) tokenURI;
     mapping(uint256 => Mood) mood;
     mapping(uint256 => address) tokenIdToOwner;
+    mapping(address => uint256[]) ownerToTokenIDs;
 
     string HAPPYIMGURI;
     string SADIMGURI;
 
-    constructor(string memory _HAPPYIMGURI, string memory _SADIMGURI) ERC721("DynamicNFT", "DNFT") {
-        HAPPYIMGURI = _HAPPYIMGURI;
-        SADIMGURI = _SADIMGURI;
+    constructor(string memory _HAPPYIMGBASE64ENCODE, string memory _SADIMGBASE64ENCODE) ERC721("DynamicNFT", "DNFT") {
+        HAPPYIMGURI = _getImageURIFromBaseEncode(_HAPPYIMGBASE64ENCODE);
+        SADIMGURI = _getImageURIFromBaseEncode(_SADIMGBASE64ENCODE);
         tokenCounter = 0;
     }
 
@@ -31,6 +32,8 @@ contract DynamicNFT is ERC721 {
         _safeMint(msg.sender, tokenCounter);
         tokenURI[tokenCounter] = HAPPYIMGURI;
         mood[tokenCounter] = Mood.HAPPY;
+        tokenIdToOwner[tokenCounter] = msg.sender;
+        ownerToTokenIDs[msg.sender].push(tokenCounter);
         tokenCounter++;
     }
 
@@ -76,5 +79,9 @@ contract DynamicNFT is ERC721 {
             mood[tokenId] = Mood.HAPPY;
             tokenURI[tokenId] = HAPPYIMGURI;
         }
+    }
+
+    function _getImageURIFromBaseEncode(string memory _base64ImageURI) private view returns (string memory) {
+        string memory FinalURI = string(abi.encodePacked("data:image/svg+xml;base64,", _base64ImageURI));
     }
 }
